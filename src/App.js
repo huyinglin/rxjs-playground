@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import React from 'react';
+import { Subject } from 'rxjs';
 import './App.css';
+
+const CounterView = ({count, onIncrement, onDecrement}) => (
+  <div>
+    <h1>Count: {count}</h1>
+    <button onClick={onIncrement}>+</button>
+    <button onClick={onDecrement}>-</button>
+  </div>
+);
+
+class RxCounter extends React.Component {
+  constructor() {
+    super(...arguments);
+
+    this.state = {count: 0};
+
+    this.counter = new Subject();
+    const observer = value => this.setState({count: value});
+    this.counter.scan((result, inc) => result + inc, 0)
+      .subscribe(observer);
+  }
+
+  render() {
+    return <CounterView
+      count={this.state.count}
+      onIncrement={()=> this.counter.next(1)}
+      onDecrement={()=> this.counter.next(-1)}
+    />
+  }
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RxCounter/>
   );
 }
 
