@@ -1,18 +1,37 @@
-import { useEffect } from 'react';
-import {
-  Observable,
-  of,
-  interval,
-  from,
-  Subject,
-  combineLatest,
-  timer,
-} from 'rxjs';
-import {
-  map,
-  first,
-  switchMap,
-} from 'rxjs/operators';
+import React, { useEffect } from 'react';
+import { Subject } from 'rxjs';
+import { scan } from 'rxjs/operators';
+import './App.css';
+
+const CounterView = ({count, onIncrement, onDecrement}) => (
+  <div>
+    <h1>Count: {count}</h1>
+    <button onClick={onIncrement}>+</button>
+    <button onClick={onDecrement}>-</button>
+  </div>
+);
+
+class RxCounter extends React.Component {
+  constructor() {
+    super(...arguments);
+
+    this.state = {count: 0};
+
+    this.counter = new Subject();
+
+    this.counter
+      .pipe(scan((result, inc) => result + inc, 0))
+      .subscribe(value => this.setState({count: value}));
+  }
+
+  render() {
+    return <CounterView
+      count={this.state.count}
+      onIncrement={()=> this.counter.next(1)}
+      onDecrement={()=> this.counter.next(-1)}
+    />
+  }
+}
 
 function App() {
 
@@ -62,7 +81,7 @@ function App() {
   // }, []);
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
     // const observable = new Observable(function subscribe(subscriber) {
     //   const intervalId = setInterval(() => {
@@ -145,21 +164,20 @@ function App() {
 
 /* ================================ switchMap =============================== */
 
-  const source = timer(0, 5000);
+  // const source = timer(0, 5000);
 
-  const example = source.pipe(switchMap(() => interval(500)));
+  // const example = source.pipe(switchMap(() => interval(500)));
 
-  const subscribe = example.subscribe(val => console.log(val));
+  // const subscribe = example.subscribe(val => console.log(val));
 
-  setTimeout(() => {
-    subscribe.unsubscribe();
-  }, 10 * 1000);
+  // setTimeout(() => {
+  //   subscribe.unsubscribe();
+  // }, 10 * 1000);
 
-  }, []);
+  // }, []);
 
   return (
-    <div className="App">
-    </div>
+    <RxCounter/>
   );
 }
 
