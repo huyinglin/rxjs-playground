@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Subject } from 'rxjs';
 import { scan } from 'rxjs/operators';
+import { styled } from '@linaria/react';
 import './App.css';
 
 const CounterView = ({count, onIncrement, onDecrement}) => (
@@ -10,6 +11,10 @@ const CounterView = ({count, onIncrement, onDecrement}) => (
     <button onClick={onDecrement}>-</button>
   </div>
 );
+
+const Container = styled.div`
+  color: red;
+`;
 
 class RxCounter extends React.Component {
   constructor() {
@@ -177,7 +182,10 @@ function App() {
   // }, []);
 
   return (
-    <RxCounter/>
+    // <RxCounter/>
+    <Container>
+      dsfsdf
+    </Container>
   );
 }
 
