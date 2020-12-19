@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { Subject, Observable, observable, of, generate, fromEvent } from 'rxjs';
-import { scan, repeat } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { scan } from 'rxjs/operators';
+import { styled } from '@linaria/react';
 import './App.css';
 
 const CounterView = ({count, onIncrement, onDecrement}) => (
@@ -10,6 +11,10 @@ const CounterView = ({count, onIncrement, onDecrement}) => (
     <button onClick={onDecrement}>-</button>
   </div>
 );
+
+const Container = styled.div`
+  color: red;
+`;
 
 class RxCounter extends React.Component {
   constructor() {
@@ -179,77 +184,76 @@ function App() {
 
 /* ================================= 实现一个操作符 ================================ */
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // function map(project) {
-    //   return new Observable(observer => {
-    //     const sub = this.subscribe({
-    //       next: value => {
-    //         /**
-    //          * 当 project 的调用出现错误时，整个程序都会破坏掉，
-    //          * 更好的处理方式是捕获异常错误，把异常错误沿着数据流往下游传递，
-    //          * 最终如何处理交给 Observer 来决定，这是更加可控的方法。
-    //          *
-    //          * 所以，map 有两种可能向下游传递 error 消息的方式：
-    //          * 1. 上游的 error 直接转手给下游
-    //          * 2. project 函数执行过程中产生的 error 也交给下游
-    //          */
-    //         try {
-    //           observer.next(project(value));
-    //         } catch (err) {
-    //           observer.error(err);
-    //         }
-    //       },
-    //       error: err => observer.error(err),
-    //       complete: () => observer.complete(),
-    //     });
+  //   // function map(project) {
+  //   //   return new Observable(observer => {
+  //   //     const sub = this.subscribe({
+  //   //       next: value => {
+  //   //         /**
+  //   //          * 当 project 的调用出现错误时，整个程序都会破坏掉，
+  //   //          * 更好的处理方式是捕获异常错误，把异常错误沿着数据流往下游传递，
+  //   //          * 最终如何处理交给 Observer 来决定，这是更加可控的方法。
+  //   //          *
+  //   //          * 所以，map 有两种可能向下游传递 error 消息的方式：
+  //   //          * 1. 上游的 error 直接转手给下游
+  //   //          * 2. project 函数执行过程中产生的 error 也交给下游
+  //   //          */
+  //   //         try {
+  //   //           observer.next(project(value));
+  //   //         } catch (err) {
+  //   //           observer.error(err);
+  //   //         }
+  //   //       },
+  //   //       error: err => observer.error(err),
+  //   //       complete: () => observer.complete(),
+  //   //     });
 
-    //     return {
-    //       /**
-    //        * 当不再需要从某个 Observable 对象获取数据的时候，就要退订这个 Observable 对象。
-    //        */
-    //       unsubscribe: () => {
-    //         sub.unsubscribe();
-    //       }
-    //     }
-    //   });
-    // }
-    // // of(1, 2, 3, 4).
-    // const result$ = map(x => x * 2);
+  //   //     return {
+  //   //       /**
+  //   //        * 当不再需要从某个 Observable 对象获取数据的时候，就要退订这个 Observable 对象。
+  //   //        */
+  //   //       unsubscribe: () => {
+  //   //         sub.unsubscribe();
+  //   //       }
+  //   //     }
+  //   //   });
+  //   // }
+  //   // // of(1, 2, 3, 4).
+  //   // const result$ = map(x => x * 2);
 
-    // result$.subscribe({
+  //   // result$.subscribe({
 
-    // })
+  //   // })
 
 
-    const source$ = generate(
-      'x',
-      v => v.length <= 3,
-      v => v + 'x',
-    );
+  //   const source$ = generate(
+  //     'x',
+  //     v => v.length <= 3,
+  //     v => v + 'x',
+  //   );
 
-    source$.pipe(repeat(10)).subscribe(console.log)
+  //   source$.pipe(repeat(10)).subscribe(console.log)
 
-  }, []);
+  // }, []);
 
-  const [count, setCount] = React.useState(0);
-  const btnRef = React.useRef();
+  // const [count, setCount] = React.useState(0);
+  // const btnRef = React.useRef();
 
-  React.useEffect(() => {
-    const event$ = fromEvent(btnRef.current, 'click');
-    const event = event$.subscribe(() => {
-      setCount(count + 1);
-    });
+  // React.useEffect(() => {
+  //   const event$ = fromEvent(btnRef.current, 'click');
+  //   const event = event$.subscribe(() => {
+  //     setCount(count + 1);
+  //   });
 
-    return () => event.unsubscribe();
-  }, [count]);
+  //   return () => event.unsubscribe();
+  // }, [count]);
 
   return (
     // <RxCounter/>
-    <div>
-      <button ref={btnRef}>Click Me</button>
-      <div>{count}</div>
-    </div>
+    <Container>
+      dsfsdf
+    </Container>
   );
 }
 
